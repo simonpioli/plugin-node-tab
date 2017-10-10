@@ -105,7 +105,7 @@ function pluginInit(patternlab) {
             for (let j = 0; j < pluginConfig.tabsToAdd.length; j++) {
               let typePrism = pluginConfig.tabsToAdd[j];
               if (typePrism === 'scss') {
-                typePrism = 'css';
+                typePrism = 'sass';
               }
               let tabSnippetLocal = tab_frontend_snippet.replace(/<<type>>/g, pluginConfig.tabsToAdd[j]).replace(/<<typeUC>>/g, pluginConfig.tabsToAdd[j].toUpperCase()).replace(/<<typePrism>>/g, typePrism);
               snippetString += tabSnippetLocal + EOL;
