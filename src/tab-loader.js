@@ -57,8 +57,10 @@ function findTab(patternlab, pattern) {
       }
     }
     catch (err) {
-      console.log('plugin-node-tab:There was an error parsing sibling JSON for ' + pattern.relPath);
-      console.log(err);
+      if (patternlab.config.debug) {
+        console.log('plugin-node-tab: There was an error parsing sibling ' + fileType + ' for ' + pattern.relPath);
+        console.log(err);
+      }
     }
   }
 }
