@@ -1,6 +1,6 @@
 /* global PrismLanguages */
 
-PrismLanguages.add({'<<type>>': '<<type>>'});
+PrismLanguages.add({'<<type>>': '<<typePrism>>'});
 
 /* global Panels */
 
