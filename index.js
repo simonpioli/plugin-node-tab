@@ -103,7 +103,11 @@ function pluginInit(patternlab) {
           var snippetString = '';
           if (pluginConfig.tabsToAdd && pluginConfig.tabsToAdd.length > 0) {
             for (let j = 0; j < pluginConfig.tabsToAdd.length; j++) {
-              let tabSnippetLocal = tab_frontend_snippet.replace(/<<type>>/g, pluginConfig.tabsToAdd[j]).replace(/<<typeUC>>/g, pluginConfig.tabsToAdd[j].toUpperCase());
+              let typePrism = pluginConfig.tabsToAdd[j];
+              if (typePrism === 'scss') {
+                typePrism = 'sass';
+              }
+              let tabSnippetLocal = tab_frontend_snippet.replace(/<<type>>/g, pluginConfig.tabsToAdd[j]).replace(/<<typeUC>>/g, pluginConfig.tabsToAdd[j].toUpperCase()).replace(/<<typePrism>>/g, typePrism);
               snippetString += tabSnippetLocal + EOL;
             }
             tabJSFileContents = tabJSFileContents.replace('/*SNIPPETS*/', snippetString);
