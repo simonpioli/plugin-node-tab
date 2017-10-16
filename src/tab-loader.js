@@ -26,35 +26,34 @@ function findTab(patternlab, pattern) {
   }
 
   //derive the custom filetype paths from the pattern relPath
-  var customFileTypePath = path.join(patternlab.config.paths.source.patterns, pattern.relPath);
+  let customFileTypePath = path.join(patternlab.config.paths.source.patterns, pattern.relPath);
 
   //loop through all configured types
   for (let i = 0; i < fileTypes.length; i++) {
     const fileType = fileTypes[i].toLowerCase();
 
     customFileTypePath = customFileTypePath.substr(0, customFileTypePath.lastIndexOf(".")) + '.' + fileType;
-    var customFileTypeOutputPath = patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'custom', '.' + fileType);
+    let customFileTypeOutputPath = patternlab.config.paths.public.patterns + pattern.getPatternLink(patternlab, 'custom', '.' + fileType);
 
-    //look for a custom filetype for this template
     try {
-      try {
-        var tabFileName = path.resolve(customFileTypePath);
-        var tabFileNameStats = fs.statSync(tabFileName);
-      } catch (err) {
-        //not a file - move on quietly
-      }
-      fs.pathExistsSync(tabFileName, (err, exists) => {
-        if (exists) {
+      let tabFileName = path.resolve(customFileTypePath);
+      let tabFileNameOutput = path.resolve(customFileTypeOutputPath);
+
+      //look for a custom filetype for this template
+      fs.pathExists(tabFileName, (err, exists) => {
+        if (exists === true) {
           if (patternlab.config.debug) {
             console.log('plugin-node-tab: copied pattern-specific ' + fileType + ' file for ' + pattern.patternPartial);
           }
 
           //copy the file to our output target if found
-          fs.copySync(tabFileName, customFileTypeOutputPath);
+          fs.copy(tabFileName, tabFileNameOutput, {overwrite: true});
         } else {
-
+          if (patternlab.config.debug) {
+            console.log('plugin-node-tab: empty ' + fileType + ' file for ' + pattern.patternPartial + ' to prevent GET error');
+          }
           //otherwise write nothing to the same location - this prevents GET errors on the tab.
-          fs.outputFileSync(customFileTypeOutputPath, '');
+          fs.outputFile(customFileTypeOutputPath, '');
         }
       });
 
