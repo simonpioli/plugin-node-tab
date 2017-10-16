@@ -37,24 +37,27 @@ function findTab(patternlab, pattern) {
 
     //look for a custom filetype for this template
     try {
-      var tabFileName = path.resolve(customFileTypePath);
       try {
+        var tabFileName = path.resolve(customFileTypePath);
         var tabFileNameStats = fs.statSync(tabFileName);
       } catch (err) {
         //not a file - move on quietly
       }
-      if (tabFileNameStats && tabFileNameStats.isFile()) {
-        if (patternlab.config.debug) {
-          console.log('plugin-node-tab: copied pattern-specific custom file for ' + pattern.patternPartial);
+      fs.pathExistsSync(tabFileName, (err, exists) => {
+        if (exists) {
+          if (patternlab.config.debug) {
+            console.log('plugin-node-tab: copied pattern-specific ' + fileType + ' file for ' + pattern.patternPartial);
+          }
+
+          //copy the file to our output target if found
+          fs.copySync(tabFileName, customFileTypeOutputPath);
+        } else {
+
+          //otherwise write nothing to the same location - this prevents GET errors on the tab.
+          fs.outputFileSync(customFileTypeOutputPath, '');
         }
+      });
 
-        //copy the file to our output target if found
-        fs.copySync(tabFileName, customFileTypeOutputPath);
-      } else {
-
-        //otherwise write nothing to the same location - this prevents GET errors on the tab.
-        fs.outputFileSync(customFileTypeOutputPath, '');
-      }
     }
     catch (err) {
       if (patternlab.config.debug) {
