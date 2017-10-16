@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "fs-extra": "^4.0.2",
+    "fs-extra": "^0.30.0",
     "glob": "^7.0.0"
   },
   "repository": {
