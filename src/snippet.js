@@ -13,6 +13,6 @@ Panels.add({
   'httpRequestReplace': '.<<type>>',
   'httpRequestCompleted': false,
   'prismHighlight': true,
-  'language': '<<type>>',
+  'language': PrismLanguages.get('<<type>>'),
   'keyCombo': 'ctrl+shift+z'
 });
